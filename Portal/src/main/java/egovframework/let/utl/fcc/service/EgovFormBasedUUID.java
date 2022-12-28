@@ -59,6 +59,10 @@ import java.security.SecureRandom;
  */
 @SuppressWarnings("serial")
 public class EgovFormBasedUUID implements Serializable {
+	
+	//2022.12.28 SpotBugs - Random object created and used only once 조치
+	static SecureRandom ng = new SecureRandom();
+	
     /*
      * The most significant 64 bits of this UUID.
      *
@@ -148,10 +152,13 @@ public class EgovFormBasedUUID implements Serializable {
      * @return a randomly generated <tt>UUID</tt>.
      */
     public static EgovFormBasedUUID randomUUID() {
-        SecureRandom ng = numberGenerator;
+        ng = numberGenerator;
+        
+        /**
         if (ng == null) {
             numberGenerator = ng = new SecureRandom();
         }
+        */
 
         byte[] randomBytes = new byte[16];
         ng.nextBytes(randomBytes);
@@ -187,7 +194,6 @@ public class EgovFormBasedUUID implements Serializable {
         }
         // 2014.09.20 보안점검 후속 조치
         // Random 방식의 salt 추가
-        SecureRandom ng = new SecureRandom();
         byte[] randomBytes = new byte[16];
         ng.nextBytes(randomBytes);
 
@@ -202,6 +208,7 @@ public class EgovFormBasedUUID implements Serializable {
 
         md5Bytes[6] &= 0x0f; /* clear version */
         md5Bytes[6] |= 0x30; /* set to version 3 */
+        //2022.12.28 SpotBugs - Array Index is out of boundes 조치
         md5Bytes[7] &= 0x3f; /* clear variant */
         md5Bytes[7] |= 0x80; /* set to IETF variant */
 

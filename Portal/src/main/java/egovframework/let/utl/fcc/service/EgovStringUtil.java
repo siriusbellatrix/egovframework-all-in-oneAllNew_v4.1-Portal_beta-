@@ -43,6 +43,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EgovStringUtil {
+	
+	//2022.12.28 SpotBugs - Random object created and used only once 조치
+	static SecureRandom ng = new SecureRandom();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovStringUtil.class);
 
@@ -742,9 +745,6 @@ public class EgovStringUtil {
 		if (startInt > endInt) {
 			throw new IllegalArgumentException("Start String: " + startChr + " End String: " + endChr);
 		}
-
-		// 랜덤 객체 생성
-		SecureRandom rnd = new SecureRandom();
 
 		do {
 			// 시작문자 및 종료문자 중에서 랜덤 숫자를 발생시킨다.

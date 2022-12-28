@@ -37,6 +37,9 @@ import com.ibm.icu.util.ChineseCalendar;
 public class EgovDateUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovDateUtil.class);
+	
+	//2022.12.28 SpotBugs - Random object created and used only once 조치
+	static SecureRandom r = new SecureRandom();
 
 	/**
 	 * <p>yyyyMMdd 혹은 yyyy-MM-dd 형식의 날짜 문자열을 입력 받아 년, 월, 일을
@@ -506,9 +509,7 @@ public class EgovDateUtil {
 		if (endDate.getTimeInMillis() < beginDate.getTimeInMillis()) {
 			throw new IllegalArgumentException("Invalid input date : " + sDate1 + "~" + sDate2);
 		}
-
-		SecureRandom r = new SecureRandom();
-
+		
 		long rand = ((r.nextLong() >>> 1) % (endDate.getTimeInMillis() - beginDate.getTimeInMillis() + 1)) + beginDate.getTimeInMillis();
 
 		GregorianCalendar cal = new GregorianCalendar();

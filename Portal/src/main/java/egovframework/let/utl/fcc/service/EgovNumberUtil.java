@@ -44,6 +44,9 @@ import org.slf4j.LoggerFactory;
 
 public class EgovNumberUtil {
 	
+	//2022.12.28 SpotBugs - Random object created and used only once 조치
+	static SecureRandom rnd = new SecureRandom();
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovNumberUtil.class);
 
     /**
@@ -56,9 +59,6 @@ public class EgovNumberUtil {
      */
     public static int getRandomNum(int startNum, int endNum) {
 		int randomNum = 0;
-
-		// 랜덤 객체 생성
-		SecureRandom rnd = new SecureRandom();
 
 		do {
 			// 종료숫자내에서 랜덤 숫자를 발생시킨다.

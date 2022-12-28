@@ -313,15 +313,17 @@ public class EgovTemplateManageController {
 		String width = (String) commandMap.get("width");
 		String height = (String) commandMap.get("height");
 		String typeFlag = (String) commandMap.get("typeFlag");
-
-		if (trgetId != null && trgetId != "") {
-			if (typeFlag != null && typeFlag != "") {
+		
+		//2022.12.28 SpotBugs - Comparison of String objects using == or != 조치
+		if (trgetId != null && !trgetId.equals("")) {
+			if (typeFlag != null && !typeFlag.equals("")) {
 				model.addAttribute("requestUrl", requestUrl + "?trgetId=" + trgetId + "&PopFlag=Y&typeFlag=" + typeFlag);
 			} else {
 				model.addAttribute("requestUrl", requestUrl + "?trgetId=" + trgetId + "&PopFlag=Y");
 			}
 		} else {
-			if (typeFlag != null && typeFlag != "") {
+			//2022.12.28 SpotBugs - Comparison of String objects using == or != 조치
+			if (typeFlag != null && !typeFlag.equals("")) {
 				model.addAttribute("requestUrl", requestUrl + "?PopFlag=Y&typeFlag=" + typeFlag);
 			} else {
 				model.addAttribute("requestUrl", requestUrl + "?PopFlag=Y");
